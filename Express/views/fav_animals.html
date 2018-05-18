@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+            {% block content %}
+      {% for a in animals %}
+      {% if a.favorite %}
+        <li>{{ a.name}}</li>
+        {% endif %}
+      {% endfor %}
+    </ol>
+   {% endblock %}
