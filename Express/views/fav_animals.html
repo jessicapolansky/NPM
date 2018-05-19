@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
             {% block content %}
+            <ol>
       {% for a in animals %}
       {% if a.favorite %}
         <li>{{ a.name}}</li>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+{% if contxt.message %}
+<h3>{{ message }}</h3>
+{% endif %}
+<h1>To-Do List</h1>
+<ol>
+{% for result in results %}
+<li>{{ result.description }}   <a href="/todo/done/{{ result.id }}"><span>&#9744</span></a></li>
+
+{% endfor %}
+</ol>
+<button href="/todos/add">Add a new task</button>
+<script>
+$(function(){
+  var prev;    
+
+  $('a').hover(function(){
+  var prev = $(this).text();
+  $(this).text("&#9745");
+  }, function(){
+      $(this).text(prev)
+  });
+})</script>
+{% endblock %}
