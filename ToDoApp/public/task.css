@@ -1,12 +1,12 @@
-a {
+.check {
     text-decoration: none;
     font-weight: bold;
     font-size: 1.5em;
 }
-a:hover span {
+.check:hover span {
     display:none;
     
 }
-a:hover:before {
+.check:hover:before {
     content: '☑';
 }
