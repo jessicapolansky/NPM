@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<ol>
+{% for result in results %}
+<li><a href="/restaurant/{{ result.id }}">{{ result.name }}</a></li>
+
+{% endfor %}
+</ol>
+{% endblock %}

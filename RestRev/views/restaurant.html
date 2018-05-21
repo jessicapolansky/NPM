@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h1>{{ results[0][0].name }}</h1>
+<ul>
+    <li class='attr'>Address: {{ results[0][0].address }} </li>   
+    <li class = 'attr'>Restaurant Category: {{ results[0][0].category }}</li>
+    </ul><br>
+    {% for i in range(0, results[1].length) -%}
+    <p>{{ results[1][i].stars }} stars,  "{{ results[1][i].title }}"  - {{ results[1][i].reviewer_name }}</p>
+{%- endfor %}
+
+{% if not results[1][1] %}
+<p>No reviews exist for this restaurant. Why not <a href="/addreview">write your own</a>!</p>
+{% endif %}
+{% endblock %}
