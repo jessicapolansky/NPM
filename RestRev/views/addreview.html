@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/addreview/{{ results[0][0].id }}" method="POST" id="newreview">
+<h1>Review for {{ results[0][0].category }}</h1>
+  <label>Review Title: </label><br>
+  <input type="text" name="title">
+  <br><br>
+  <label>Stars (out of five): </label><br>
+  <input type="textarea" name="stars">
+  <br><br>
+  <textarea name="content" form="newreview">Enter review here...</textarea><br>
+    <button type="/restaurant/{{ results[0][0].id }}">Submit</button>
+
+</form>
+
+
+
+{% endblock %}
