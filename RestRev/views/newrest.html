@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/submit/restaurant" method="POST" id="newrest">
+<h1>Add a Restaurant to the Database</h1>
+  <label>Restaurant Name: </label><br>
+  <input type="text" name="name">
+  <br><br>
+  <label>Address </label><br>
+  <input type="text" name="address">
+  <br><br>
+<label>Category </label><br>
+  <input type="text" name="category">
+  <br><br>
+    <button type="/submit/restaurant">Submit</button>
+
+</form>
+
+
+
+{% endblock %}

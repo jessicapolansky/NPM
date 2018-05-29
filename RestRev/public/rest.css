@@ -1,3 +1,20 @@
 .attr {
     list-style-type: none;
 }
+button {
+    margin-left: 90px;
+}
+h1, h2, h3, h4, h5, p {
+    font-family: sans-serif;
+}
+.col-form-label {
+    display: block;
+}
+.form-control {
+    width: 30%;
+}
+
+body {
+    margin: 10px;
+    padding: 10px;
+}

@@ -6,4 +6,8 @@
 
 {% endfor %}
 </ol>
+{% if not results[0].id %}
+<p>Sorry, no restaurants found by that name!</p>
+<p>Would you like to <a href="/submit/restaurant">add a restaurant</a>?</p>
+{% endif %}
 {% endblock %}

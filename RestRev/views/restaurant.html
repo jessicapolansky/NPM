@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-
+<div class="container">
 <h1>{{ results[0][0].name }}</h1>
+
 <ul>
     <li class='attr'>Address: {{ results[0][0].address }} </li>   
     <li class = 'attr'>Restaurant Category: {{ results[0][0].category }}</li>
@@ -10,7 +11,26 @@
     <p>{{ results[1][i].stars }} stars,  "{{ results[1][i].title }}"  - {{ results[1][i].reviewer_name }}</p>
 {%- endfor %}
 
-{% if not results[1][1] %}
-<p>No reviews exist for this restaurant. Why not <a href="/addreview">write your own</a>!</p>
+{% if not results[1][0] %}
+<p>No reviews exist for this restaurant. Why not write your own!</p>
 {% endif %}
+<hr />
+<h2>Write Your Own Review</h2>
+<form action="/addreview/{{ results[0][0].id }}" method="POST">
+  <div class="form-group row">
+  <label class="col-sm-3 col-form-label">Title: </label><div class="col-sm-8">
+  <input type="text" class="form-control mr-auto" name="title"></div></div><br>
+  <div class="form-group row"><label class="col-sm-3 col-form-label">Stars:</label>
+  <select class="form-control col-sm-3 mr-auto " name="stars"></div>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+  </select></div>
+  <label>Review Details:</label><br>
+  <textarea class="form-control" name="review" cols="40" rows="6"></textarea><br>
+  <button class="btn btn-primary" type="submit">Submit</button>
+</form>
+</div>
 {% endblock %}
