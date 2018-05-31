@@ -19,7 +19,11 @@ io.on('connection', function(socket){
   });
 });
 
-http.listen(8080, function(){
-  console.log('listening on 8080');
+var PORT = process.env.PORT || 8080;
+app.listen(PORT, function () {
+  console.log('Listening on port ' + PORT);
 });
+// http.listen(8080, function(){
+//   console.log('listening on 8080');
+// });
 
