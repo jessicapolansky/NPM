@@ -1,9 +1,12 @@
+// all the required modules + settings
 const express = require('express');
 const request = require('request');
 const app = express();
 app.use(express.static('public'));
 const bodyParser = require('body-parser');
 const pgp = require('pg-promise')({});
+const session = require('express-session');
+const morgan = require('morgan');
 const db = pgp({database: 'test', user: 'postgres'});
 const nunjucks = require('nunjucks');
 nunjucks.configure('views', {
@@ -12,8 +15,26 @@ nunjucks.configure('views', {
   noCache: true
 });
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static('public'));
-
+app.use(session({
+  secret: process.env.SECRET_KEY || 'dev',
+  resave: true,
+  saveUninitialized: false,
+  cookie: {
+    maxAge: 60000,
+    secure: false
+  }
+}));
+// Redirect to login page if no user credentials have been entered
+app.use(function (request, response, next) {
+  if (request.session.user) {
+      var user = request.session.user;
+    next();
+  } else if (request.path == '/login') {
+    next();
+  } else {
+      response.redirect('/login');
+  }
+});
 app.get('/', function (req, resp) {
     resp.render('search.html');
 });
@@ -35,25 +56,29 @@ app.get('/restaurant/:id', function(req, resp, next) {
     LEFT OUTER JOIN reviewer ON review.reviewer_id = reviewer.id WHERE restaurant.id='$1#'", id)
     Promise.all([p1, p2])
     .then(function (results) {
-        console.log(results);
         resp.render('restaurant.html', {results: results});
     })
         .catch(next);
-        // .catch(next function(error) {
-        //     res.render('error.html')
-        // })
 });
-// app.get('/error', function(req, resp, next, err) {
-//   res.status(500);
-//   res.render('error', { error: err });
-// }
 
-// app.get('/addreview/:id', function(req, resp, next) {
-//     var id = req.params.id;
-//     resp.render('addreview.html', {})
-//     .catch(next);
-// });
 app.use(bodyParser.urlencoded({extended: false}));
+
+app.get('/login', function (request, response) {
+  response.render('login.html');
+});
+
+app.post('/login', function(request, response) {
+    var username = request.body.username;
+    var password = request.body.password;
+    var p1 = db.one("SELECT password FROM reviewer WHERE name='$1#'", username)
+    .then(function (results) {
+        if (results.password == password) {
+            request.session.user = username;
+            response.redirect('/');
+        } else {
+            response.render('login.html');
+        }
+})});
 
 app.post('/addreview/:id', function (req, resp, next) {
     var id = req.params.id;
@@ -74,15 +99,11 @@ app.get('/submit/restaurant', function (req, resp, next) {
 
 app.post('/submit/restaurant', function (req, resp, next) {
     var name = req.body.name;
-    console.log(name);
     var address = req.body.address;
-    console.log(address);
     var category = req.body.category;
-    console.log(name);
     var id = db.result(`INSERT INTO restaurant VALUES (default, '${name}', '${address}', '${category}') \
     RETURNING id AS id`)
     .then(function(results) {
-        console.log(results.row);
         resp.redirect(`/restaurant/1`);
         // pgp.end();
     })

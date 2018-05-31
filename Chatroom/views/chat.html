@@ -15,6 +15,7 @@
         </style>
     </head>
     <body>
+      <p id="typing" onkeypress="myFunction()">Someone is typing a message</p>
         <ul id="messages"></ul>
         <form action="">
              <input id="m" autocomplete="off" /><button>Send</button>
@@ -22,6 +23,7 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 <script>
+  const userName = prompt('Enter User ID')
   $(function () {
     var socket = io();
     $('form').submit(function(){
@@ -29,15 +31,27 @@
       $('#m').val('');
       return false;
     });
+
     socket.on('chat message', function(msg){
+      $('#messages').append(userName);
       $('#messages').append($('<li>').text(msg));
     });
+    
     socket.on('enter', function() {
-        $('#messages').append($('<li>').text('A new person has entered the chatroom'));
+        $('#messages').append($('<li>').text(userName + ' has entered the chatroom'));
     })
     socket.on('leave', function() {
-        $('#messages').append($('<li>').text('Someone has left the chatroom'));
+        $('#messages').append($('<li>').text('Someone left the chatroom'));
     });
+    function myFunction(e) {
+      var x = document.getElementById("typing");
+      x.style.display = "none";
+      if (x.style.display === "none" && e.which !== 13) {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+  }
   });
 </script>
 

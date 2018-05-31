@@ -10,6 +10,7 @@
     </head>
     {% endblock %}
     <body>
+        <p class="greeting">Hello {{ request.session.user }}!</p>
 {% block content %}
 {% endblock %}
 
