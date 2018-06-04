@@ -34,7 +34,7 @@ app.use(body_parser.urlencoded({extended: false}));
 app.post('/todos', function (req, resp, error) {
     var description = req.body.description;
     console.log(description);
-    db.none(`INSERT INTO task VALUES (default, '${description}', FALSE)`)
+    db.result(`INSERT INTO task VALUES (default, "$1#", FALSE)`, description)
     .then(function() {
       resp.redirect('/todos');
     })
@@ -44,7 +44,7 @@ app.post('/todos', function (req, resp, error) {
 
 app.get('/todo/done/:id', function(req, resp, error) {
   var id = req.params.id;
-  db.none('UPDATE task SET done = true WHERE id = $1', [id])
+  db.none(`UPDATE task SET done = true WHERE id='${id}'`)
     .then(data => {
       console.log('successful change');
     })

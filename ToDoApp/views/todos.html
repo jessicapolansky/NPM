@@ -5,8 +5,8 @@
 {% endif %}
 <h1>To-Do List</h1>
 <ol>
-{% for result in results %}
-<li>{{ result.description }}   <a class="check" href="/todo/done/{{ result.id }}"><span>&#9744</span></a></li>
+{% for r in results %}
+<li>{{ r.description }}   <a class="check" href="/todo/done/{{ r.id }}"><span>&#9744</span></a></li>
 
 {% endfor %}
 </ol>
