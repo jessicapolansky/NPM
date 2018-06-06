@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+    {% block content %}
+        <h1>Welcome to the Movie DB</h1>
+        <h4>Enter your search criteria below:</h4>
+        <form action="/search/" method="GET">
+            <label class="col-form-label">Movie: </label>
+            <input type="text" class="mw-30" name="movie"><br><br>
+            <button class="btn btn-info" role="button" type="submit">Submit</button>
+        </form>
+        {% if body %}
+        <p>{{ body }}</p>
+        {% endif %}
+   {% endblock %}
