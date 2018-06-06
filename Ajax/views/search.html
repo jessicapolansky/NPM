@@ -3,7 +3,8 @@
 <h2>Your Search Results:</h2>
 <ul>
 {% for x in body.results %}
-<li><p>{{ x.title }}</p></li>
+<li><h5>{{ x.title }}</h5></li>
+<p>{{ x.overview }}</p>
 {% endfor %}
 </ul>
 <a class="btn"href="/">Back to Search Page</a>
