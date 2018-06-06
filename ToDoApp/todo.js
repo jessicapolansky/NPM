@@ -34,7 +34,7 @@ app.use(body_parser.urlencoded({extended: false}));
 app.post('/todos', function (req, resp, error) {
     var description = req.body.description;
     console.log(description);
-    db.result(`INSERT INTO task VALUES (default, "$1#", FALSE)`, description)
+    db.result(`INSERT INTO task VALUES (default, '${description}', FALSE)`)
     .then(function() {
       resp.redirect('/todos');
     })

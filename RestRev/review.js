@@ -25,18 +25,20 @@ app.use(session({
   }
 }));
 // Redirect to login page if no user credentials have been entered
-app.use(function (request, response, next) {
-  if (request.session.user) {
-      var user = request.session.user;
+app.use(function (req, resp, next) {
+  if (req.session.user) {
+      console.log(req.session.user);
+      var user = req.session.user;
     next();
-  } else if (request.path == '/login') {
+  } else if (req.path == '/login') {
     next();
   } else {
-      response.redirect('/login');
+      resp.redirect('/login');
   }
 });
 app.get('/', function (req, resp) {
-    resp.render('search.html');
+    var user = req.session.user;
+    resp.render('search.html', {user: user});
 });
 
 
@@ -63,20 +65,20 @@ app.get('/restaurant/:id', function(req, resp, next) {
 
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.get('/login', function (request, response) {
-  response.render('login.html');
+app.get('/login', function (req, resp) {
+  resp.render('login.html');
 });
 
-app.post('/login', function(request, response) {
-    var username = request.body.username;
-    var password = request.body.password;
+app.post('/login', function(req, resp) {
+    var username = req.body.username;
+    var password = req.body.password;
     var p1 = db.one("SELECT password FROM reviewer WHERE name='$1#'", username)
     .then(function (results) {
         if (results.password == password) {
-            request.session.user = username;
-            response.redirect('/');
+            req.session.user = username;
+            resp.redirect('/');
         } else {
-            response.render('login.html');
+            resp.render('login.html');
         }
 })});
 
@@ -85,7 +87,12 @@ app.post('/addreview/:id', function (req, resp, next) {
     var title = req.body.title;
     var stars = parseInt(req.body.stars, 10);
     var review = req.body.review;
-    db.result(`INSERT INTO review VALUES (default, '${title}', '${review}', '${stars}', NULL, ${id})`)
+    var reviewer = req.session.user;
+    var rev = db.one("SELECT id FROM reviewer WHERE name = '$1#'", reviewer)
+    .then(function(rev) {
+        var revID = rev.id;5
+        db.result(`INSERT INTO review VALUES (default, '${title}', '${review}', '${stars}', '${revID}', '${id}')`)
+    })
     .then(function() {
         resp.redirect(`/restaurant/${id}`);
     })

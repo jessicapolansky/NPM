@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<p>Welcome to Restaurant Review! Please sign in below.</p>
+
+    <form action="/login" method="POST" id="loginform">
+        <label> UserName: </label>
+        <input type="text" name="username"><br>
+        <label> Password: </label>
+        <input type="password" name="password">
+        <button type="/">Submit</button>
+    </form>
+{% endblock%}

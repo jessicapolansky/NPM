@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="/results" method="GET">
-    
-  <label>Find A Restaurant: </label>
-  <input type="text" name="restaurant">
 
-  <button type="/results">Search</button>
+  <p class="greeting">Hello {{ user }}!</p>
+  
+  <form action="/results" method="GET">
+    
+    <label>Find A Restaurant: </label>
+    <input type="text" name="restaurant">
+    
+    <button type="/results">Search</button>
+    
 </form>
 
 {% endblock %}
