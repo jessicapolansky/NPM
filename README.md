@@ -1,10 +1,10 @@
 # NPM
 ## Various minor projects utilizing the NPM library
 
-*To-Do App
+-To-Do App
 
-*Marked HTML translator
+-Marked HTML translator
 
-*Restaurant Review app
+-Restaurant Review app
 
-*...And more!
+-...And more!
